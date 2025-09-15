@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TallinnaRakenduslikKolledge_Leib.Migrations
 {
     /// <inheritdoc />
-    public partial class NewInit : Migration
+    public partial class Fix : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,6 +26,24 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Instructor",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    HireDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Salary = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Instructor", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Student",
                 columns: table => new
                 {
@@ -41,6 +59,50 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Student", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CourseAssignment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InstructorId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseAssignment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CourseAssignment_Course_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Course",
+                        principalColumn: "CourseId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CourseAssignment_Instructor_InstructorId",
+                        column: x => x.InstructorId,
+                        principalTable: "Instructor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OfficeAssignment",
+                columns: table => new
+                {
+                    InstructorId = table.Column<int>(type: "int", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OfficeAssignment", x => x.InstructorId);
+                    table.ForeignKey(
+                        name: "FK_OfficeAssignment_Instructor_InstructorId",
+                        column: x => x.InstructorId,
+                        principalTable: "Instructor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,6 +133,16 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_CourseAssignment_CourseId",
+                table: "CourseAssignment",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CourseAssignment_InstructorId",
+                table: "CourseAssignment",
+                column: "InstructorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Enrollment_CourseID",
                 table: "Enrollment",
                 column: "CourseID");
@@ -85,13 +157,22 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "CourseAssignment");
+
+            migrationBuilder.DropTable(
                 name: "Enrollment");
+
+            migrationBuilder.DropTable(
+                name: "OfficeAssignment");
 
             migrationBuilder.DropTable(
                 name: "Course");
 
             migrationBuilder.DropTable(
                 name: "Student");
+
+            migrationBuilder.DropTable(
+                name: "Instructor");
         }
     }
 }

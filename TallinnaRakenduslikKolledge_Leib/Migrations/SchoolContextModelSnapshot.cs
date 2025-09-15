@@ -42,6 +42,29 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                     b.ToTable("Course", (string)null);
                 });
 
+            modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.CourseAssignment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InstructorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("InstructorId");
+
+                    b.ToTable("CourseAssignment", (string)null);
+                });
+
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Enrollment", b =>
                 {
                     b.Property<int>("EnrollmentID")
@@ -66,6 +89,56 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                     b.HasIndex("StudentID");
 
                     b.ToTable("Enrollment", (string)null);
+                });
+
+            modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Instructor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Salary")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Instructor", (string)null);
+                });
+
+            modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.OfficeAssignment", b =>
+                {
+                    b.Property<int>("InstructorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("InstructorId");
+
+                    b.ToTable("OfficeAssignment", (string)null);
                 });
 
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Student", b =>
@@ -101,6 +174,25 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                     b.ToTable("Student", (string)null);
                 });
 
+            modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.CourseAssignment", b =>
+                {
+                    b.HasOne("TallinnaRakenduslikKolledge_Leib.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TallinnaRakenduslikKolledge_Leib.Models.Instructor", "Instructor")
+                        .WithMany("CourseAssignments")
+                        .HasForeignKey("InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Instructor");
+                });
+
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Enrollment", b =>
                 {
                     b.HasOne("TallinnaRakenduslikKolledge_Leib.Models.Course", "Course")
@@ -120,9 +212,27 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.OfficeAssignment", b =>
+                {
+                    b.HasOne("TallinnaRakenduslikKolledge_Leib.Models.Instructor", "Instructor")
+                        .WithOne("OfficeAssignment")
+                        .HasForeignKey("TallinnaRakenduslikKolledge_Leib.Models.OfficeAssignment", "InstructorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Instructor");
+                });
+
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Course", b =>
                 {
                     b.Navigation("Enrollments");
+                });
+
+            modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Instructor", b =>
+                {
+                    b.Navigation("CourseAssignments");
+
+                    b.Navigation("OfficeAssignment");
                 });
 
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Student", b =>
