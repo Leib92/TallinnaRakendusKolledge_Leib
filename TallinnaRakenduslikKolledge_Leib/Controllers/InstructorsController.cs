@@ -6,10 +6,10 @@ using TallinnaRakenduslikKolledge_Leib.Models;
 
 namespace TallinnaRakenduslikKolledge_Leib.Controllers
 {
-    public class InstructorController : Controller
+    public class InstructorsController : Controller
     {
         private readonly SchoolContext _context;
-        public InstructorController(SchoolContext context)
+        public InstructorsController(SchoolContext context)
         {
             _context = context;
         }

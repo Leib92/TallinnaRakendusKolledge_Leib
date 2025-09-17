@@ -24,12 +24,31 @@
 			string selectedRow = "";
 			if (instructor.Id == (int?)ViewData["InstructorId"])
 			{
-				selectedRow = "table success";
+				selectedRow = "table-success";
 			}
 			<tr class="@selectedRow">
 				<td>@Html.DisplayFor(modelItem => instructor.FirstName)</td>
 				<td>@Html.DisplayFor(modelItem => instructor.LastName)</td>
 				<td>@Html.DisplayFor(modelItem => instructor.HireDate)</td>
+				<td>
+					@if (instructor.OfficeAssignment != null)
+					{
+						@instructor.OfficeAssignment.Location
+					}
+				</td>
+				<td>
+					@foreach (var course in instructor.CourseAssignments)
+					{
+						@course.Course.CourseId @: @course.Course.Title <br/>
+					}
+				</td>
+				<td>@Html.DisplayFor(modelItem => instructor.Salary)</td>
+				<td>
+					<a asp-action="Edit" asp-route-id="@instructor.Id">Muuda</a>
+					<a asp-action="Details" asp-route-id="@instructor.Id">Vaata</a>
+					<a asp-action="Delete" asp-route-id="@instructor.Id">Kustuta</a>
+				</td>
+
 			</tr>
 		}
 	</tbody>
