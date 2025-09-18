@@ -8,11 +8,14 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
 {
     public class InstructorsController : Controller
     {
+        // CONTEXT //
         private readonly SchoolContext _context;
         public InstructorsController(SchoolContext context)
         {
             _context = context;
         }
+
+        // INDEX //
         public async Task<IActionResult> Index(int? id, int? courseId)
         {
             var vm = new InstructorIndexData();
@@ -23,6 +26,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             return View(vm);
         }
 
+        // CREATE //
         [HttpGet]
         public IActionResult Create()
         {
@@ -59,6 +63,33 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             //PopulateAssignedCourseData(instructor);
             return View(instructor);
         }
+
+        // DELETE //
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var instructor = await _context.Instructors.FirstOrDefaultAsync(m => m.Id == id);
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+            return View(instructor);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var instructor = await _context.Instructors.FindAsync(id);
+            _context.Instructors.Remove(instructor);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        // POPULATE //
         private void PopulateAssignedCourseData(Instructor instructor) 
         {
             var allCourses = _context.Courses; // leiame kõik kursused

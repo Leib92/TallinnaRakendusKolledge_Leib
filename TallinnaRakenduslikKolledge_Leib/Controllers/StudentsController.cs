@@ -7,20 +7,20 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
 {
     public class StudentsController : Controller
     {
-        // CONTEXT
+        // CONTEXT //
         private readonly SchoolContext _context;
         public StudentsController(SchoolContext context) 
         {
             _context = context;
         }
 
-        // INDEX
+        // INDEX //
         public async Task<IActionResult> Index()
         {
             return View(await _context.Students.ToListAsync());
         }
 
-        // CREATE
+        // CREATE //
         [HttpGet]
         public IActionResult Create()
         {
@@ -40,8 +40,8 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             }
             return View(student);
         }
-
-        // DELETE
+        
+        // DELETE //
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -66,7 +66,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             return RedirectToAction("Index");
         }
 
-        // DETAIL
+        // DETAIL //
         [HttpGet]
         public async Task<IActionResult> Detail(int? id)
         {
@@ -88,7 +88,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             return View(await _context.Students.ToListAsync());
         }
 
-        // EDIT
+        // EDIT //
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
