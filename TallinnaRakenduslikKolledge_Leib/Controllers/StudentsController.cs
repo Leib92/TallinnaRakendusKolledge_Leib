@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq.Expressions;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TallinnaRakenduslikKolledge_Leib.Data;
 using TallinnaRakenduslikKolledge_Leib.Models;
@@ -29,7 +30,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind
-            ("ID,LastName,FirstName,EnrollmentDate,Email")] Student student)
+            ("Id,LastName,FirstName,EnrollmentDate,Email")] Student student)
         {
             if (ModelState.IsValid) 
             {
@@ -81,12 +82,6 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             }
             return View(student);
         }
-        [HttpPost, ActionName("Detail")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ShowDetail(int id)
-        {
-            return View(await _context.Students.ToListAsync());
-        }
 
         // EDIT //
         [HttpGet]
@@ -105,13 +100,32 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
         }
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditConfirmed(int id)
+        public async Task<IActionResult> ConfirmEdit([Bind
+            ("Id,LastName,FirstName,EnrollmentDate,Email")] Student student)
         {
-            var student = await _context.Students.FindAsync(id);
+            if (ModelState.IsValid)
+            {
+                _context.Students.Update(student);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index"); // Alternative: "return RedirectToAction(nameof(Index))"
 
-            _context.Students.Update(student);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            }
+            return View(student);
+        }
+        
+        [HttpPost, ActionName("Clone")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Clone([Bind
+            ("Id,LastName,FirstName,EnrollmentDate,Email")] Student student)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Students.Add(student);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index"); // Alternative: "return RedirectToAction(nameof(Index))"
+
+            }
+            return View(student);
         }
 
     }
