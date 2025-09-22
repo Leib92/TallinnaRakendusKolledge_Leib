@@ -89,6 +89,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             return RedirectToAction("Index");
         }
 
+        // DETAIL //
         [HttpGet]
         public async Task<IActionResult> Detail(int? id)
         {
@@ -100,6 +101,36 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             if (instructor == null)
             {
                 return NotFound();
+            }
+            return View(instructor);
+        }
+
+        // EDIT //
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var instructor = await _context.Instructors.FirstOrDefaultAsync(m => m.Id == id);
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+            return View(instructor);
+        }
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ConfirmEdit([Bind
+            ("Id,FirstName,LastName,HireDate,Email,PhoneNumber,Salary")] Instructor instructor)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Instructors.Update(instructor);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index"); // Alternative: "return RedirectToAction(nameof(Index))"
+
             }
             return View(instructor);
         }
