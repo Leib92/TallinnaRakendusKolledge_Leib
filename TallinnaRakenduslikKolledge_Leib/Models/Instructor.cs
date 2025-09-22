@@ -21,7 +21,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Models
         [Display(Name = "Õpetaja nimi")]
         public string FullName 
         {
-            get { return LastName + ", " + FirstName; }
+            get { return FirstName + ", " + LastName; }
         }
 
         [DataType(DataType.Date)]
