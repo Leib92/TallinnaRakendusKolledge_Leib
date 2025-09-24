@@ -33,11 +33,16 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                     b.Property<int>("Credits")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CourseId");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Course", (string)null);
                 });
@@ -63,6 +68,47 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                     b.HasIndex("InstructorId");
 
                     b.ToTable("CourseAssignment", (string)null);
+                });
+
+            modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Department", b =>
+                {
+                    b.Property<int>("DepartmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartmentId"));
+
+                    b.Property<decimal>("Budget")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("CurrentRating")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("InstructorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte?>("RowVersion")
+                        .HasColumnType("tinyint");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("TeachersKilled")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TragicBackstory")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DepartmentId");
+
+                    b.HasIndex("InstructorId");
+
+                    b.ToTable("Department", (string)null);
                 });
 
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Enrollment", b =>
@@ -174,6 +220,13 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                     b.ToTable("Student", (string)null);
                 });
 
+            modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Course", b =>
+                {
+                    b.HasOne("TallinnaRakenduslikKolledge_Leib.Models.Department", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("DepartmentId");
+                });
+
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.CourseAssignment", b =>
                 {
                     b.HasOne("TallinnaRakenduslikKolledge_Leib.Models.Course", "Course")
@@ -191,6 +244,15 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Instructor");
+                });
+
+            modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Department", b =>
+                {
+                    b.HasOne("TallinnaRakenduslikKolledge_Leib.Models.Instructor", "Administrator")
+                        .WithMany()
+                        .HasForeignKey("InstructorId");
+
+                    b.Navigation("Administrator");
                 });
 
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Enrollment", b =>
@@ -226,6 +288,11 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Course", b =>
                 {
                     b.Navigation("Enrollments");
+                });
+
+            modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Department", b =>
+                {
+                    b.Navigation("Courses");
                 });
 
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Instructor", b =>
