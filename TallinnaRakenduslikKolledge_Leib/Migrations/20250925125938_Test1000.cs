@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TallinnaRakenduslikKolledge_Leib.Migrations
 {
     /// <inheritdoc />
-    public partial class Hue2 : Migration
+    public partial class Test1000 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -59,7 +59,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                     InstructorId = table.Column<int>(type: "int", nullable: true),
                     RowVersion = table.Column<byte>(type: "tinyint", nullable: true),
                     TeachersKilled = table.Column<int>(type: "int", nullable: true),
-                    TragicBackstory = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TragicBackstory = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurrentRating = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

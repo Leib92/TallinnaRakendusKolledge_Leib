@@ -1,0 +1,40 @@
+﻿@model TallinnaRakenduslikKolledge_Leib.Models.Course
+@{
+	ViewData["Title"] = "Uus kursus";
+}
+<h1>Tee uus kursus</h1>
+<h4>Sisesta info:</h4>
+<hr/>
+
+<div class="row">
+	<div class="col-md-4">
+		<form asp-acton="Create">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div>
+				<label asp-for="CourseId" class="control-label"></label>
+				<label asp-for="CourseId" class="form-control"/>
+				<span asp-validation-for="CourseId" class="text-danger"></span>
+			</div>
+			<div>
+				<label asp-for="Title" class="control-label"></label>
+				<label asp-for="Title" class="form-control" />
+				<span asp-validation-for="Title" class="text-danger"></span>
+			</div>
+			<div>
+				<label asp-for="Credits" class="control-label"></label>
+				<label asp-for="Credits" class="form-control" />
+				<span asp-validation-for="Credits" class="text-danger"></span>
+			</div>
+			<div>
+				<label asp-for="Department" class="control-label"></label>
+				<select asp-for="DepartmentId" class="form-control">
+					<option value="" class="form-control"> --Vali osakond-- </option>
+				</select>
+				<span asp-validation-for="DepartmentId" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Tee uus" class="btn btn-primary"/> | <a asp-action="Index" class="btn btn-outline-primary">Tühista</a>
+			</div>
+		</form>
+	</div>
+</div>

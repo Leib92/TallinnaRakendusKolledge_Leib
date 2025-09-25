@@ -1,0 +1,36 @@
+﻿@model TallinnaRakenduslikKolledge_Leib.Models.Department
+
+@{
+	ViewData["Title"] = "Kustuta õpetaja";
+}
+
+<h1>Delete</h1>
+<h3>
+	Kas soovid kustutada @Html.DisplayFor(model => model.Name) osakonna?
+</h3>
+<div>
+	<h4>Õpetaja</h4>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">@Html.DisplayNameFor(model => model.Name)</dt>
+		<dt class="col-sm-10">@Html.DisplayFor(model => model.Name)</dt>
+
+		<dt class="col-sm-2">@Html.DisplayNameFor(model => model.Budget)</dt>
+		<dt class="col-sm-10">@Html.DisplayFor(model => model.Budget)</dt>
+
+		<dt class="col-sm-2">@Html.DisplayNameFor(model => model.StartDate)</dt>
+		<dt class="col-sm-10">@Html.DisplayFor(model => model.StartDate)</dt>
+
+		<dt class="col-sm-2">@Html.DisplayNameFor(model => model.InstructorId)</dt>
+		<dt class="col-sm-10">@Html.DisplayFor(model => model.InstructorId)</dt>
+
+		<dt class="col-sm-2">@Html.DisplayNameFor(model => model.CurrentRating)</dt>
+		<dt class="col-sm-10">@Html.DisplayFor(model => model.CurrentRating)</dt>
+	</dl>
+</div>
+
+<form asp-action="Delete">
+	<input type="hidden" asp-for="DepartmentId" />
+	<input type="hidden" asp-for="RowVersion" />
+	<input type="submit" value="Kustuta" class="btn btn-danger" /> | <a asp-action="Index">Tühista</a>
+</form>

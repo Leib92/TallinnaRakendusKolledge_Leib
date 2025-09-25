@@ -12,8 +12,8 @@ using TallinnaRakenduslikKolledge_Leib.Data;
 namespace TallinnaRakenduslikKolledge_Leib.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20250924101443_Hue2")]
-    partial class Hue2
+    [Migration("20250925125938_Test1000")]
+    partial class Test1000
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,7 +104,6 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("TragicBackstory")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("DepartmentId");
@@ -225,15 +224,17 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
 
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Course", b =>
                 {
-                    b.HasOne("TallinnaRakenduslikKolledge_Leib.Models.Department", null)
+                    b.HasOne("TallinnaRakenduslikKolledge_Leib.Models.Department", "Department")
                         .WithMany("Courses")
                         .HasForeignKey("DepartmentId");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.CourseAssignment", b =>
                 {
                     b.HasOne("TallinnaRakenduslikKolledge_Leib.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("CourseAssignments")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -290,6 +291,8 @@ namespace TallinnaRakenduslikKolledge_Leib.Migrations
 
             modelBuilder.Entity("TallinnaRakenduslikKolledge_Leib.Models.Course", b =>
                 {
+                    b.Navigation("CourseAssignments");
+
                     b.Navigation("Enrollments");
                 });
 

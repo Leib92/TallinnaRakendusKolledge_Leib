@@ -20,8 +20,15 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
 
         public IActionResult Privacy()
         {
+            ViewData["Värv"] = "Punane";
             return View();
         }
+        public IActionResult Privacy2()
+        {
+            ViewData["Värv"] = "Roheline";
+            return View("Privacy","Home");
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
