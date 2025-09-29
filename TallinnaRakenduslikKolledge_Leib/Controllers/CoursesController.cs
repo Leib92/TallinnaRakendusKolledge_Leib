@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TallinnaRakenduslikKolledge_Leib.Data;
+using TallinnaRakenduslikKolledge_Leib.Models;
 
 namespace TallinnaRakenduslikKolledge_Leib.Controllers
 {
@@ -18,13 +19,25 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             var courses = _context.Courses.Include(c => c.Department).AsNoTracking();
             return View(courses);
         }
-        [HttpGet]
 
         // Create
+        [HttpGet]
         public IActionResult Create() 
         {
             PopulateDepartmentsDropDownList();
             return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Course course)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(course);
+                await _context.SaveChangesAsync();
+                PopulateDepartmentsDropDownList(course.DepartmentId);
+            }
+            return RedirectToAction("Index");
         }
 
         // Delete
