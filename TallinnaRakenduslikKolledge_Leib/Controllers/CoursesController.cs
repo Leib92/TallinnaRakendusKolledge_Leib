@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TallinnaRakenduslikKolledge_Leib.Data;
@@ -18,11 +19,49 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             return View(courses);
         }
         [HttpGet]
+
+        // Create
         public IActionResult Create() 
         {
             PopulateDepartmentsDropDownList();
             return View();
         }
+
+        // Delete
+        [HttpGet]
+        public async Task<IActionResult> Delete(int?id)
+        {
+            if (id == null || _context.Courses == null) 
+            {
+                return NotFound();
+            }
+            var courses = await _context.Courses
+                .Include(c => c.Department)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.CourseId == id);
+            if (courses == null) 
+            {
+                return NotFound();
+            }
+            return View(courses);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Courses == null)
+            {
+                return NotFound();
+            }
+            var course = await _context.Courses.FindAsync(id);
+            if (course != null)
+            {
+                _context.Courses.Remove(course);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
         private void PopulateDepartmentsDropDownList(object selectedDepartment = null)
         {
             var departmentQuery = from d in _context.Departments 
@@ -30,5 +69,6 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
                                   select d;
             ViewBag.DepartmentId = new SelectList(departmentQuery.AsNoTracking(), "DepartmentId", "Name", selectedDepartment);
         }
+
     }
 }
