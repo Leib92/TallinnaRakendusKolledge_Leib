@@ -12,8 +12,8 @@ using TallinnaRakenduslikKolledge_Leib.Data;
 namespace TallinnaRakenduslikKolledge_Leib.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20250929104429_HELPME")]
-    partial class HELPME
+    [Migration("20251002094427_ThisIsHell")]
+    partial class ThisIsHell
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

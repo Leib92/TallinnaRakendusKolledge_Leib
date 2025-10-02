@@ -8,13 +8,13 @@
 
 <div class="row">
 	<div class="col-md-4">
-		<form asp-acton="Create">
+		<form asp-action="Create">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div>
+			@* <div>
 				<label asp-for="CourseId" class="control-label"></label>
 				<input asp-for="CourseId" class="form-control"/>
 				<span asp-validation-for="CourseId" class="text-danger"></span>
-			</div>
+			</div> *@
 			<div>
 				<label asp-for="Title" class="control-label"></label>
 				<input asp-for="Title" class="form-control" />
@@ -31,7 +31,7 @@
 					<option value="" class="form-control"> --Vali osakond-- </option>
 				</select>
 				<span asp-validation-for="DepartmentId" class="text-danger"></span>
-			</div>
+			</div> 
 			<div class="form-group">
 				<input type="submit" value="Tee uus" class="btn btn-primary"/> | <a asp-action="Index" class="btn btn-outline-primary">Tühista</a>
 			</div>

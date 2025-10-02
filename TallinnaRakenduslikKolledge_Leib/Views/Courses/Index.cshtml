@@ -15,29 +15,32 @@
 			<th>@Html.DisplayNameFor(model => model.Title)</th>
 			<th>@Html.DisplayNameFor(model => model.Credits)</th>
 			<th>@Html.DisplayNameFor(model => model.Department.Name)</th>
-			<th>@Html.DisplayNameFor(model => model.Department.Administrator.FullName)</th>
+			@* <th>@Html.DisplayNameFor(model => model.Department.Administrator.FullName)</th> *@
 			<th>Tööriistad</th>
 	</thead>
 	<tbody>
 		@foreach (var course in Model)
 		{
 			<tr>
-				@Html.DisplayFor(modelItem => course.CourseId)
-			</tr>
-			<tr>
-				@Html.DisplayFor(modelItem => course.Title)
-			</tr>
-			<tr>
-				@Html.DisplayFor(modelItem => course.Credits)
-			</tr>
-			<tr>
-				@Html.DisplayFor(modelItem => course.Department.Name)
-			</tr>
-			<tr>
-				@Html.DisplayFor(modelItem => course.Department.Administrator.FullName)
-			</tr>
-			<tr>
-				<a asp-action="Delete" asp-route-id="@course.CourseId">Kustuta</a>
+				<td>
+						@Html.DisplayFor(modelItem => course.CourseId)
+				</td>
+				<td>
+						@Html.DisplayFor(modelItem => course.Title)
+				</td>
+				<td>
+						@Html.DisplayFor(modelItem => course.Credits)
+				</td>
+				<td>
+						@Html.DisplayFor(modelItem => course.Department.Name)
+				</td>
+					@* <tr>
+					@Html.DisplayFor(modelItem => course.Department.Administrator.FullName)
+				</tr> *@
+				<td>
+					<a asp-action="Delete" asp-route-id="@course.CourseId">Kustuta</a>
+				</td>
+
 			</tr>
 		}
 	</tbody>

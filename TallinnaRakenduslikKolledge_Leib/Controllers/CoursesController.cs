@@ -20,7 +20,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             return View(courses);
         }
 
-        // Create
+        // Create //
         [HttpGet]
         public IActionResult Create() 
         {
@@ -33,14 +33,14 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(course);
+                _context.Courses.Add(course);
                 await _context.SaveChangesAsync();
-                PopulateDepartmentsDropDownList(course.DepartmentId);
+                //PopulateDepartmentsDropDownList(course.DepartmentId);
             }
             return RedirectToAction("Index");
         }
 
-        // Delete
+        // Delete //
         [HttpGet]
         public async Task<IActionResult> Delete(int?id)
         {
@@ -75,6 +75,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             return RedirectToAction("Index");
         }
 
+        // Populate //
         private void PopulateDepartmentsDropDownList(object selectedDepartment = null)
         {
             var departmentQuery = from d in _context.Departments 
