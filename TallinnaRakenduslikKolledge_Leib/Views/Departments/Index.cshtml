@@ -30,10 +30,9 @@
 				<td>@Html.DisplayFor(modelItem => department.RowVersion)</td>
 				<td>
 					@* Muuda *@
-					@* Vaata *@
+					<a asp-action="Delete" asp-route-id="@department.DepartmentId" class="btn btn-outline-primary" name="Details">Vaata</a>
 					@* Vaata Adminit *@
-					@* Kustuta *@
-					<a asp-action="Delete" asp-route-id="@department.DepartmentId" class="btn btn-danger">Eemalda</a>
+					<a asp-action="Delete" asp-route-id="@department.DepartmentId" class="btn btn-danger" name="Delete">Kustuta</a>
 				</td>
 			</tr>
 		}

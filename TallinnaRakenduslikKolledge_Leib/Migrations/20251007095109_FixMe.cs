@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TallinnaRakenduslikKolledge_Leib.Migrations
 {
     /// <inheritdoc />
-    public partial class ThisIsHell : Migration
+    public partial class FixMe : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
