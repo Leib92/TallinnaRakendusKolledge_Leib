@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TallinnaRakenduslikKolledge_Leib.Data;
@@ -19,12 +20,31 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             return View(await SchoolContext.ToListAsync());
         }
 
+        // CREATE //
         [HttpGet]
         public IActionResult Create() 
         {
             ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "FullName");
+            ViewData["ViewType"] = "Create";
             //ViewData["CurrentRating"] = new SelectList(_context.Students, "Id", "FirstName", "LastName");
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "FullName");
+            ViewData["ViewType"] = "Edit";
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var department = await _context.Departments.FirstOrDefaultAsync(m => m.DepartmentId == id);
+            if (department == null)
+            {
+                return NotFound();
+            }
+            return View("Create", department);
         }
 
         [HttpPost]
@@ -57,6 +77,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             }
             return View(department);
         }
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Department department)
