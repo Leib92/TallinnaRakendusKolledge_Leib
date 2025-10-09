@@ -1,15 +1,5 @@
 ﻿@model TallinnaRakenduslikKolledge_Leib.Models.Department
 
-@* 
-@using (Html.BeginForm("Delete"))
-{
-	@Html.HiddenFor(Model=> Model.DepartmentId)
-	@Html.EditorFor(Model=> Model.Name)
-	<input type="submit" value='Submit' />
-} 
-*@
-
-
 @{
 	ViewData["Title"] = "Kustuta õpetaja";
 }

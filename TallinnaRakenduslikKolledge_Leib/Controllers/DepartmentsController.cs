@@ -53,19 +53,34 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(department);
+                if (ViewData["ViewType"] == "Edit")
+                {
+                    _context.Update(department);
+                }
+                else
+                {
+                    _context.Add(department);
+                }
                 await _context.SaveChangesAsync();
+            }
+            if (ViewData["ViewType"] == "Edit")
+            {
+                return View(department);
+            }
+            else
+            {
+                ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "FullName", department.InstructorId);
                 return RedirectToAction("Index");
             }
-            ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "FullName", department.InstructorId);
             //ViewData["CurrentRating"] = new SelectList(_context.Instructors, "Id", department.CurrentRating.ToString(), department.CurrentRating);
-            return RedirectToAction("Index");
         }
 
         // DELETE //
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "FullName");
+            ViewData["ViewType"] = "Delete";
             if (id == null)
             {
                 return NotFound();
@@ -75,7 +90,24 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             {
                 return NotFound();
             }
-            return View(department);
+            return View("Delete", department);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "FullName");
+            ViewData["ViewType"] = "Details";
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var department = await _context.Departments.FirstOrDefaultAsync(m => m.DepartmentId == id);
+            if (department == null)
+            {
+                return NotFound();
+            }
+            return View("Details", department);
         }
 
         [HttpPost, ActionName("Delete")]

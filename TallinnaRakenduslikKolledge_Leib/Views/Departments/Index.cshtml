@@ -30,9 +30,9 @@
 				<td>@Html.DisplayFor(modelItem => department.RowVersion)</td>
 				<td>
 					<a asp-action="Edit" asp-route-id="@department.DepartmentId" class="btn btn-outline-primary">Muuda</a>
-					<a asp-action="Delete" asp-route-id="@department.DepartmentId" class="btn btn-outline-secondary">Vaata</a>
+					<a asp-action="Details" asp-route-id="@department.DepartmentId" class="btn btn-outline-secondary">Vaata</a>
 					@* Vaata Adminit *@
-					<a asp-action="Details" asp-route-id="@department.DepartmentId" class="btn btn-danger">Kustuta</a>
+					<a asp-action="Delete" asp-route-id="@department.DepartmentId" class="btn btn-danger">Kustuta</a>
 				</td>
 			</tr>
 		}
