@@ -2,10 +2,23 @@
 @{
 	ViewData["Title"] = "Osakond";
 }
-<h2>Asuta uus osakond</h2>
+
+@if (ViewData["ViewType"] == "Create")
+{
+	<h2>Asuta uus osakond</h2>
+}
+@if (ViewData["ViewType"] == "Edit")
+{
+	<h2>Muuda osakonna andmed</h2>
+}
 <div>
 	<div>
-		<form asp-action="Create">
+		<form asp-action="CreateEdit" method="post">
+			<input type="hidden" name="ViewType" value="@ViewData["ViewType"]" />
+			@if (ViewData["ViewType"] == "Edit")
+			{
+				<input type="hidden" asp-for="DepartmentId" />
+			}
 			<input type="hidden" asp-for="RowVersion" value="@Html.Raw("0")" />
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 

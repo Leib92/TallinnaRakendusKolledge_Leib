@@ -9,6 +9,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
 {
     public class DepartmentsController : Controller
     {
+
         private readonly SchoolContext _context;
         public DepartmentsController(SchoolContext context)
         {
@@ -27,7 +28,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "FullName");
             ViewData["ViewType"] = "Create";
             //ViewData["CurrentRating"] = new SelectList(_context.Students, "Id", "FirstName", "LastName");
-            return View();
+            return View("CreateEdit");
         }
 
         [HttpGet]
@@ -44,18 +45,19 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             {
                 return NotFound();
             }
-            return View("Create", department);
+            return View("CreateEdit", department);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Budget,StartDate,RowVersion,InstructorId,CurrentRating")] Department department)
+        public async Task<IActionResult> CreateEdit([Bind("DepartmentId,Name,Budget,StartDate,RowVersion,InstructorId,CurrentRating")] Department department, string ViewType)
         {
             if (ModelState.IsValid)
             {
-                if (ViewData["ViewType"] == "Edit")
+                if (ViewType == "Edit")
                 {
                     _context.Update(department);
+
                 }
                 else
                 {
@@ -63,10 +65,10 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
                 }
                 await _context.SaveChangesAsync();
             }
-            if (ViewData["ViewType"] == "Edit")
+            if (ViewType == "Edit")
             {
                 return View(department);
-            }
+			}
             else
             {
                 ViewData["InstructorId"] = new SelectList(_context.Instructors, "Id", "FullName", department.InstructorId);
@@ -90,7 +92,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             {
                 return NotFound();
             }
-            return View("Delete", department);
+            return View("DeleteDetails", department);
         }
 
         [HttpGet]
@@ -107,7 +109,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             {
                 return NotFound();
             }
-            return View("Details", department);
+            return View("DeleteDetails", department);
         }
 
         [HttpPost, ActionName("Delete")]
