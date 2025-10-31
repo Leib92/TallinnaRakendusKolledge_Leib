@@ -1,0 +1,72 @@
+﻿@model TallinnaRakenduslikKolledge_Leib.Models.Course
+@{
+	ViewData["Title"] = "Uus kursus";
+}
+
+@if (ViewData["ViewType"] == "Create")
+{
+	<h2>Asuta uus kursus</h2>
+}
+@if (ViewData["ViewType"] == "Edit")
+{
+	<h2>Muuda kursuse andmed</h2>
+}
+
+<h1>Tee uus kursus</h1>
+<h4>Sisesta info:</h4>
+<hr/>
+
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action="Create" method="post">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" name="ViewType" value="@ViewData["ViewType"]" />
+			@if (ViewData["ViewType"] == "Edit")
+			{
+				<input type="hidden" asp-for="CourseId" />
+			}
+
+			<div class="form-group">
+				<label asp-for="Title" class="control-label"></label>
+				<input asp-for="Title" class="control-label" />
+				<span asp-validation-for="Title" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="Credits" class="control-label"></label>
+				<input asp-for="Credits" class="control-label" />
+				<span asp-validation-for="Credits" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="DepartmentId" class="control-label"></label>
+				<select asp-for="DepartmentId" class="control-label" asp-items="ViewBag.DepartmentId">
+					<option value=""> --Osakonna Valik--</option>
+				</select>
+				<span asp-validation-for="DepartmentId" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="Description" class="control-label"></label>
+				<input asp-for="Description" class="control-label" />
+				<span asp-validation-for="Description" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="DaysSinceAccident" class="control-label"></label>
+				<input asp-for="DaysSinceAccident" class="control-label" />
+				<span asp-validation-for="DaysSinceAccident" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<label asp-for="MandatedLessons" class="control-label"></label>
+				<input asp-for="MandatedLessons" class="control-label" />
+				<span asp-validation-for="MandatedLessons" class="text-danger"></span>
+			</div>
+
+			<div class="form-group">
+				<input type="submit" value="Tee uus" class="btn btn-primary"/> | <a asp-action="Index" class="btn btn-outline-primary">Tühista</a>
+			</div>
+		</form>
+	</div>
+</div>

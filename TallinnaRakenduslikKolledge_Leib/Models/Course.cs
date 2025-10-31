@@ -12,5 +12,10 @@ namespace TallinnaRakenduslikKolledge_Leib.Models
         public int? DepartmentId { get; set; }
         public ICollection<Enrollment>? Enrollments { get; set; }
         public ICollection<CourseAssignment>? CourseAssignments { get; set; }
+
+        // 3 andmed
+        public string? Description { get; set; }
+        public int? DaysSinceAccident { get; set; }
+        public int? MandatedLessons { get; set; }
     }
 }

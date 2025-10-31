@@ -25,25 +25,59 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
         public IActionResult Create() 
         {
             PopulateDepartmentsDropDownList();
-            return View();
+            ViewData["ViewType"] = "Create";
+            return View("CreateEdit");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            PopulateDepartmentsDropDownList();
+            ViewData["ViewType"] = "Edit";
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var course = await _context.Courses.FirstOrDefaultAsync(m => m.CourseId == id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View("CreateEdit", course);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Course course)
+        public async Task<IActionResult> CreateEdit([Bind("CourseId,Title,Credits,DepartmentId,Description")] Course course, string ViewType)
         {
             if (ModelState.IsValid)
             {
-                _context.Courses.Add(course);
+                if (ViewType == "Edit")
+                {
+                    _context.Update(course);
+
+                }
+                else
+                {
+                    _context.Add(course);
+                }
                 await _context.SaveChangesAsync();
-                //PopulateDepartmentsDropDownList(course.DepartmentId);
             }
-            return RedirectToAction("Index");
+            if (ViewType == "Edit")
+            {
+                return View(course);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
         }
 
         // Delete //
         [HttpGet]
-        public async Task<IActionResult> Delete(int?id)
+        public async Task<IActionResult> Delete(int? id)
         {
+            ViewData["ViewType"] = "Delete";
             if (id == null || _context.Courses == null) 
             {
                 return NotFound();
@@ -56,8 +90,25 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             {
                 return NotFound();
             }
-            return View(courses);
+            return View("DeleteDetails", courses);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            ViewData["ViewType"] = "Details";
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var course = await _context.Courses.FirstOrDefaultAsync(m => m.CourseId == id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View("DeleteDetails", course);
+        }
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
