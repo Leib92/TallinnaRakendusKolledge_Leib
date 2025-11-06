@@ -48,7 +48,7 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateEdit([Bind("CourseId,Title,Credits,DepartmentId,Description")] Course course, string ViewType)
+        public async Task<IActionResult> CreateEdit([Bind("CourseId,Title,Credits,DepartmentId")] Course course, string ViewType)
         {
             if (ModelState.IsValid)
             {

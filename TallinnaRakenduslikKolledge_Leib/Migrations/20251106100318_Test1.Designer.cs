@@ -12,8 +12,8 @@ using TallinnaRakenduslikKolledge_Leib.Data;
 namespace TallinnaRakenduslikKolledge_Leib.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20251031095538_Init")]
-    partial class Init
+    [Migration("20251106100318_Test1")]
+    partial class Test1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
