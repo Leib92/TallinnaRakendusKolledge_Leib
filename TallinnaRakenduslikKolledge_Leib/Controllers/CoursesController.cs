@@ -93,22 +93,6 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             return View("DeleteDetails", courses);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Details(int? id)
-        {
-            ViewData["ViewType"] = "Details";
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var course = await _context.Courses.FirstOrDefaultAsync(m => m.CourseId == id);
-            if (course == null)
-            {
-                return NotFound();
-            }
-            return View("DeleteDetails", course);
-        }
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -124,6 +108,23 @@ namespace TallinnaRakenduslikKolledge_Leib.Controllers
             }
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        // Details //
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            ViewData["ViewType"] = "Details";
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var course = await _context.Courses.FirstOrDefaultAsync(m => m.CourseId == id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            return View("DeleteDetails", course);
         }
 
         // Populate //
